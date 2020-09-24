@@ -7,6 +7,7 @@
 
 /*################## LIBRARIES #########################################*/
 #include "defs.h"
+#include "rgbLED.h"
 #include <DHT.h>
 #include <DHT_U.h>
 
@@ -24,14 +25,17 @@ float heat_index;
 bool Fahrenheit = false;
 bool DHTfail = false;
 bool DHTupdate = true;
-
-bool corrected_temperature;
+bool corrected_temperature = false;
 
 //~~~~~~ BUTTON ~~~~~~~~~~~
 byte Button = 0;
 byte prev_Button = 0;
 long button_time = 0;
 long button_debounce = 50;
+
+//~~~~~~ LED RGB ~~~~~~~~~~~
+rgbLED led_rgb(pinLED_R,pinLED_G,pinLED_B);
+
 
 /*################## SETUP #############################################*/
 
@@ -47,6 +51,14 @@ void setup()
 
   //setup push-button
   pinMode(pinButton, INPUT);
+
+  //initialize RGD LED
+  led_rgb.init();
+  led_rgb.rainbow();
+  led_rgb.reverse_rainbow();
+  delay(500);
+  led_rgb.off();
+  led_rgb.white();
   
 }//END: setup
 
@@ -73,6 +85,7 @@ void loop()
 void debug()
 {
 
+  
 }//END: debug
 
 void checkButton()
@@ -85,11 +98,13 @@ void checkButton()
     {
       Serial.println(F("Heat Index: OFF"));
       corrected_temperature = false;
+      led_rgb.white();
     }
     else
     {
       Serial.println(F("Heat Index: ON"));
       corrected_temperature = true;
+      led_rgb.flash_white();
     }
   }
   

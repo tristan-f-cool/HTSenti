@@ -18,3 +18,8 @@
 
 //~~~~~~~~~~~~ Push Button ~~~~~~~~~~~~
 #define pinButton A5    // Analog pin A5
+
+//~~~~~~~~~~~~ RGB LED ~~~~~~~~~~~~
+#define pinLED_R  6    // LED RGB red   Digital pin D6
+#define pinLED_G  5    // LED RGB blue  Digital pin D5
+#define pinLED_B  9    // LED RGB green Digital pin D9
