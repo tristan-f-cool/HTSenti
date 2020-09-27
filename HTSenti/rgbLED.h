@@ -26,10 +26,19 @@ class rgbLED{
     void print_values();
     void off();
     void colour(int red, int green, int blue);
-    void white();
+    void go_white(bool hold);
     void flash_white();
+    void go_red(bool hold);
+    void flash_red();
+    void go_green(bool hold);
+    void flash_green();
+    void go_blue(bool hold);
+    void flash_blue();
     void rainbow();
     void reverse_rainbow();
+    void error();
+    void start_sequence();
+    
 	
 	private:
 	

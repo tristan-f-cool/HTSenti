@@ -54,11 +54,7 @@ void setup()
 
   //initialize RGD LED
   led_rgb.init();
-  led_rgb.rainbow();
-  led_rgb.reverse_rainbow();
-  delay(500);
-  led_rgb.off();
-  led_rgb.white();
+  led_rgb.start_sequence();
   
 }//END: setup
 
@@ -84,7 +80,6 @@ void loop()
 /*################## FUNCTIONS ########################################*/
 void debug()
 {
-
   
 }//END: debug
 
@@ -98,7 +93,7 @@ void checkButton()
     {
       Serial.println(F("Heat Index: OFF"));
       corrected_temperature = false;
-      led_rgb.white();
+      led_rgb.go_white(false);
     }
     else
     {
@@ -128,6 +123,7 @@ void readDHT()
   if (isnan(humidity)|| isnan(temperature)) 
   {
     DHTfail = true;
+    led_rgb.error();
     return; //break
   }
   DHTfail = false;

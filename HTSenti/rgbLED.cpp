@@ -74,19 +74,76 @@ void rgbLED::off()
   colour(0,0,0);
 }
 
-void rgbLED::white()
+void rgbLED::go_white(bool hold)
 {
   colour(255,255,255);
-  delay(500);
-  off();
-  delay(500);
+  if(!hold)
+  {
+    delay(500);
+    off();
+    delay(500);
+  }
 }
 
 void rgbLED::flash_white()
 {
-  white();
-  white();
-  white();
+  go_white(false);
+  go_white(false);
+  go_white(false);
+}
+
+void rgbLED::go_red(bool hold)
+{
+  colour(255,0,0); 
+  if(!hold)
+  {
+    delay(500);
+    off();
+    delay(500);
+  }
+}
+
+void rgbLED::flash_red()
+{
+  go_red(false);
+  go_red(false);
+  go_red(false);
+}
+
+void rgbLED::go_green(bool hold)
+{
+  colour(0,255,0); 
+  if(!hold)
+  {
+    delay(500);
+    off();
+    delay(500);
+  }
+}
+
+void rgbLED::flash_green()
+{
+  go_green(false);
+  go_green(false);
+  go_green(false);
+}
+
+void rgbLED::go_blue(bool hold)
+{
+  colour(0,0,255);
+  if(!hold)
+  {
+    delay(500);
+    off();
+    delay(500);
+  }
+}
+
+void rgbLED::flash_blue()
+{
+  go_blue(false);
+  go_blue(false);
+  go_blue(false);
 }
 
 void rgbLED::rainbow()
@@ -197,4 +254,25 @@ void rgbLED::reverse_rainbow()
     //print_values();
   }
   delay(50);
+}
+
+void rgbLED::error()
+{
+  for(int i = 0 ; i<4; i++)
+  {
+    colour(255,0,255); 
+    delay(200);
+    colour(0,255,255); 
+    delay(200);
+  }
+  off();
+}
+
+void rgbLED::start_sequence()
+{
+  go_white(false);
+  flash_red();
+  flash_green();
+  flash_blue();
+  go_white(false);  
 }
