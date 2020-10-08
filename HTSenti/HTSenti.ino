@@ -36,7 +36,6 @@ long button_debounce = 50;
 //~~~~~~ LED RGB ~~~~~~~~~~~
 rgbLED led_rgb(pinLED_R,pinLED_G,pinLED_B);
 
-
 /*################## SETUP #############################################*/
 
 void setup() 
@@ -74,6 +73,7 @@ void loop()
     delay(2000);    // delay for sensor polling
     readDHT();      // read DHT22
     printDHT();     // print DHT22
+    ledDHT();       //display DHT22 values with RGB LED
   }
 }//END: loop
 
@@ -155,8 +155,80 @@ void printDHT()
       {
         Serial.print(F("Heat Index C: "));
         Serial.println(heat_index);
+
+        Serial.print(F("HTSenti: "));
+        if(heat_index < VERY_COLD)
+        {
+          Serial.println(F("VERY VERY COLD"));
+        }
+        else if(heat_index > VERY_COLD && heat_index < COLD)
+        {
+          Serial.println(F("VERY COLD"));
+        }
+        else if(heat_index > COLD && heat_index < IDEAL)
+        {
+          Serial.println(F("COLD"));
+        }
+        else if(heat_index > IDEAL && heat_index < HOT)
+        {
+          Serial.println(F("IDEAL"));
+        }
+        else if(heat_index > HOT && heat_index < VERY_HOT)
+        {
+          Serial.println(F("HOT"));
+        }
+        else if(heat_index > VERY_HOT)
+        {
+          Serial.println(F("VERY HOT"));
+        }
+        else
+        {
+          Serial.println(F("VERY VERY HOT"));
+        }
       }
       Serial.println(F("----------------------------------------"));
   }
-  
 }//END: printDHT
+
+void ledDHT()
+{
+  if(corrected_temperature)
+  {
+    if(Fahrenheit)
+      dht.convertFtoC(heat_index);
+      
+    //check initial heat index value threshold
+    if(heat_index < VERY_COLD)
+    {
+      led_rgb.flash_blue();
+    }
+    else if(heat_index > VERY_COLD && heat_index < COLD)
+    {
+      int g = map(heat_index,VERY_COLD,COLD,0,255);
+      led_rgb.colour(0,g,255);
+    }
+    else if(heat_index > COLD && heat_index < IDEAL)
+    {
+      int b = map(heat_index,COLD,IDEAL,255,0);
+      led_rgb.colour(0,255,b);
+    }
+    else if(heat_index > IDEAL && heat_index < HOT)
+    {
+      int r = map(heat_index,IDEAL,HOT,0,255);
+      led_rgb.colour(r,255,0);
+    }
+    else if(heat_index > HOT && heat_index < VERY_HOT)
+    {
+      int g = map(heat_index,HOT,VERY_HOT,255,0);
+      led_rgb.colour(255,g,0);
+    }
+    else if(heat_index > VERY_HOT)
+    {
+      led_rgb.flash_red();
+    }
+    else
+    {
+      led_rgb.rainbow();
+    }
+  }
+}//END: ledDHT

@@ -23,3 +23,9 @@
 #define pinLED_R  6    // LED RGB red   Digital pin D6
 #define pinLED_G  5    // LED RGB blue  Digital pin D5
 #define pinLED_B  9    // LED RGB green Digital pin D9
+
+#define VERY_COLD   18 //degrees celsius limit
+#define COLD        20 //degrees celsius limit
+#define IDEAL       22 //degrees celsius limit
+#define HOT         25 //degrees celsius limit
+#define VERY_HOT    27 //degrees celsius limit
